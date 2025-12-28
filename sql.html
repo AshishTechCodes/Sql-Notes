@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete SQL Reference Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"></script>
+    <style>
+        .sql-code {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-blue-800 mb-2">Complete SQL Reference Guide</h1>
+            <p class="text-lg text-gray-600">All SQL concepts with practical examples</p>
+        </header>
+
+        <!-- SQL Language Types -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Language Types</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- DQL -->
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Query Language (DQL)</h3>
+                    <p class="text-gray-600 mb-3">Used to query and retrieve data from the database.</p>
+                    <p class="font-semibold">Main Command: <span class="text-blue-600">SELECT</span></p>
+                    <div class="mt-3 sql-code">
+                        <pre><code class="language-sql">-- Basic SELECT
+SELECT * FROM employees;
+
+-- SELECT specific columns
+SELECT first_name, last_name, salary FROM employees;
+
+-- SELECT with WHERE condition
+SELECT * FROM products WHERE price > 100;
+
+-- SELECT with ORDER BY
+SELECT * FROM customers ORDER BY last_name ASC;
+
+-- SELECT with LIMIT
+SELECT * FROM orders LIMIT 10;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- DDL -->
+                <div class="border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Definition Language (DDL)</h3>
+                    <p class="text-gray-600 mb-3">Used to define and manage database structures.</p>
+                    <ul class="list-disc pl-5 mb-3">
+                        <li><span class="font-semibold">CREATE</span>: Creates new database objects</li>
+                        <li><span class="font-semibold">ALTER</span>: Modifies existing objects</li>
+                        <li><span class="font-semibold">DROP</span>: Deletes objects</li>
+                        <li><span class="font-semibold">TRUNCATE/DELETE</span>: Removes records but retains structure</li>
+                    </ul>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- CREATE TABLE
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+
+-- ALTER TABLE (add column)
+ALTER TABLE employees ADD COLUMN department VARCHAR(50);
+
+-- ALTER TABLE (modify column)
+ALTER TABLE employees MODIFY COLUMN name VARCHAR(150);
+
+-- DROP TABLE
+DROP TABLE temp_employees;
+
+-- TRUNCATE TABLE
+TRUNCATE TABLE audit_log;
+
+-- DELETE specific rows
+DELETE FROM employees WHERE id = 101;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- DCL -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Control Language (DCL)</h3>
+                    <p class="text-gray-600 mb-3">Used to control access and permissions.</p>
+                    <ul class="list-disc pl-5 mb-3">
+                        <li><span class="font-semibold">GRANT</span>: Assigns privileges</li>
+                        <li><span class="font-semibold">REVOKE</span>: Removes privileges</li>
+                    </ul>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- GRANT privileges
+GRANT SELECT, INSERT ON employees TO user1;
+
+-- GRANT all privileges
+GRANT ALL PRIVILEGES ON database.* TO 'admin'@'localhost';
+
+-- REVOKE privileges
+REVOKE DELETE ON employees FROM user2;
+
+-- REVOKE all privileges
+REVOKE ALL PRIVILEGES ON database.* FROM 'user'@'localhost';
+
+-- Create a new user
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+
+-- Grant specific database access
+GRANT SELECT ON mydb.* TO 'newuser'@'localhost';</code></pre>
+                    </div>
+                </div>
+                
+                <!-- TCL -->
+                <div class="border-l-4 border-yellow-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Transaction Control Language (TCL)</h3>
+                    <p class="text-gray-600 mb-3">Manages changes and ensures data integrity.</p>
+                    <ul class="list-disc pl-5 mb-3">
+                        <li><span class="font-semibold">COMMIT</span>: Saves changes</li>
+                        <li><span class="font-semibold">ROLLBACK</span>: Undoes changes</li>
+                        <li><span class="font-semibold">SAVEPOINT</span>: Sets rollback points</li>
+                        <li><span class="font-semibold">SET TRANSACTION</span>: Configures transactions</li>
+                    </ul>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple transaction
+BEGIN TRANSACTION;
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+COMMIT;
+
+-- Transaction with ROLLBACK
+BEGIN TRANSACTION;
+INSERT INTO orders (customer_id, amount) VALUES (5, 99.99);
+-- If something goes wrong:
+ROLLBACK;
+
+-- Transaction with SAVEPOINT
+BEGIN TRANSACTION;
+UPDATE products SET stock = stock - 1 WHERE id = 10;
+SAVEPOINT after_product_update;
+INSERT INTO order_details (order_id, product_id) VALUES (1001, 10);
+-- If order details fails but product update is OK:
+ROLLBACK TO after_product_update;
+COMMIT;
+
+-- SET TRANSACTION
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN TRANSACTION;
+-- Your SQL statements here
+COMMIT;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arithmetic Operators -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Arithmetic Operations in SQL</h2>
+            <p class="text-gray-600 mb-4">SQL supports standard arithmetic operations in queries:</p>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Addition (+)</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Add a fixed amount
+SELECT salary, salary + 5000 AS increased_salary FROM employees;
+
+-- Add two columns
+SELECT quantity, unit_price, quantity + unit_price AS total FROM order_items;
+
+-- Add with NULL handling (COALESCE)
+SELECT price, discount, price + COALESCE(discount, 0) AS final_price FROM products;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Subtraction (-)</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Subtract a fixed amount
+SELECT salary, salary - tax AS net_salary FROM employees;
+
+-- Subtract two columns
+SELECT revenue, expenses, revenue - expenses AS profit FROM financials;
+
+-- Date subtraction (days between dates)
+SELECT order_date, ship_date, ship_date - order_date AS days_to_ship FROM orders;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Multiplication (*)</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Multiply two columns
+SELECT quantity, price, quantity * price AS total FROM order_items;
+
+-- Multiply with percentage
+SELECT salary, salary * 1.1 AS salary_with_10pct_raise FROM employees;
+
+-- Multiply with NULL handling
+SELECT hours_worked, rate, hours_worked * COALESCE(rate, 0) AS earnings FROM timesheets;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Division (/)</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Divide two columns
+SELECT revenue, employees, revenue/employees AS rev_per_emp FROM departments;
+
+-- Division with type casting
+SELECT quantity, total, CAST(total AS FLOAT)/quantity AS unit_price FROM sales;
+
+-- Safe division (avoid divide by zero)
+SELECT a, b, CASE WHEN b = 0 THEN NULL ELSE a/b END AS ratio FROM calculations;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Modulus (%)</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Find even IDs
+SELECT id FROM orders WHERE id % 2 = 0;
+
+-- Group data into buckets
+SELECT value, value % 10 AS bucket FROM measurements;
+
+-- Check divisibility
+SELECT number, CASE WHEN number % 5 = 0 THEN 'Divisible by 5' ELSE 'Not divisible' END FROM numbers;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <h4 class="font-medium text-gray-800">Combined Operations</h4>
+                    <div class="sql-code mt-2">
+                        <pre><code class="language-sql">-- Complex calculation
+SELECT quantity, price, discount, 
+       (quantity * price) - (quantity * price * discount/100) AS net_total 
+FROM order_items;
+
+-- Using parentheses for order of operations
+SELECT (revenue - expenses) / employees AS profit_per_employee FROM departments;
+
+-- Mathematical expressions in WHERE
+SELECT * FROM products WHERE (price * 0.9) < 50;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Set Operators -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Set Operators in SQL</h2>
+            
+            <div class="space-y-6">
+                <!-- UNION -->
+                <div class="border-l-4 border-blue-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNION</h3>
+                    <p class="text-gray-600 mb-3">Combines result sets of two or more SELECT queries and removes duplicate rows.</p>
+                    <div class="note mb-3">
+                        <p class="font-medium">Note: All SELECT statements must have the same number of columns with compatible data types.</p>
+                    </div>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Combine current and discontinued products
+SELECT product_id, product_name FROM current_products
+UNION
+SELECT product_id, product_name FROM discontinued_products;
+
+-- UNION with WHERE clauses
+SELECT customer_id FROM online_orders WHERE order_date > '2023-01-01'
+UNION
+SELECT customer_id FROM in_store_orders WHERE order_date > '2023-01-01';
+
+-- UNION with ORDER BY (applies to entire result)
+SELECT name, 'Employee' AS type FROM employees
+UNION
+SELECT name, 'Customer' AS type FROM customers
+ORDER BY name;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- UNION ALL -->
+                <div class="border-l-4 border-green-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNION ALL</h3>
+                    <p class="text-gray-600 mb-3">Combines result sets but keeps all rows including duplicates.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Combine all orders including duplicates
+SELECT customer_id FROM online_orders
+UNION ALL
+SELECT customer_id FROM in_store_orders;
+
+-- UNION ALL is faster than UNION when duplicates don't matter
+SELECT product_id FROM warehouse1_inventory
+UNION ALL
+SELECT product_id FROM warehouse2_inventory;
+
+-- UNION ALL with different numbers of rows
+SELECT 'A' AS letter, 1 AS num UNION ALL SELECT 'B', 2 UNION ALL SELECT 'B', 2;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- INTERSECT -->
+                <div class="border-l-4 border-purple-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">INTERSECT</h3>
+                    <p class="text-gray-600 mb-3">Returns only rows that exist in both queries.</p>
+                    <div class="note mb-3">
+                        <p class="font-medium">Note: Not supported in all database systems (MySQL doesn't support INTERSECT directly).</p>
+                    </div>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Employees who are also managers
+SELECT employee_id FROM full_time_employees
+INTERSECT
+SELECT employee_id FROM managers;
+
+-- Products ordered in both January and February
+SELECT product_id FROM january_orders
+INTERSECT
+SELECT product_id FROM february_orders;
+
+-- MySQL alternative using INNER JOIN
+SELECT DISTINCT e.employee_id 
+FROM full_time_employees e
+INNER JOIN managers m ON e.employee_id = m.employee_id;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- EXCEPT/MINUS -->
+                <div class="border-l-4 border-yellow-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">EXCEPT (or MINUS)</h3>
+                    <p class="text-gray-600 mb-3">Returns rows from the first query not present in the second.</p>
+                    <div class="note mb-3">
+                        <p class="font-medium">Note: Called MINUS in Oracle, EXCEPT in SQL Server and PostgreSQL.</p>
+                    </div>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Customers who haven't placed orders
+SELECT customer_id FROM all_customers
+EXCEPT
+SELECT customer_id FROM premium_customers;
+
+-- Products never ordered
+SELECT product_id FROM products
+EXCEPT
+SELECT product_id FROM order_details;
+
+-- MySQL alternative using LEFT JOIN
+SELECT c.customer_id 
+FROM all_customers c
+LEFT JOIN premium_customers p ON c.customer_id = p.customer_id
+WHERE p.customer_id IS NULL;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logical Operators -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Logical Operators in SQL</h2>
+            <p class="text-gray-600 mb-4">Used to combine multiple conditions in WHERE or HAVING clauses.</p>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- AND -->
+                <div class="bg-gray-50 p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2">AND Operator</h3>
+                    <p class="text-gray-600 mb-3">Returns true if all conditions are true.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Multiple conditions with AND
+SELECT * FROM employees
+WHERE department = 'Sales' AND salary > 50000;
+
+-- AND with different column conditions
+SELECT * FROM products
+WHERE category = 'Electronics' AND price < 1000 AND stock_quantity > 0;
+
+-- AND with date range
+SELECT * FROM orders
+WHERE order_date >= '2023-01-01' AND order_date <= '2023-01-31';
+
+-- Combining AND with other operators
+SELECT * FROM customers
+WHERE status = 'Active' AND (last_purchase_date > '2023-01-01' OR total_purchases > 1000);</code></pre>
+                    </div>
+                </div>
+                
+                <!-- OR -->
+                <div class="bg-gray-50 p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2">OR Operator</h3>
+                    <p class="text-gray-600 mb-3">Returns true if at least one condition is true.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Multiple conditions with OR
+SELECT * FROM products
+WHERE category = 'Electronics' OR price > 1000;
+
+-- OR with different column conditions
+SELECT * FROM employees
+WHERE department = 'HR' OR department = 'Finance' OR salary > 80000;
+
+-- OR with IN (alternative)
+SELECT * FROM customers
+WHERE state = 'CA' OR state = 'NY' OR state = 'TX';
+-- Equivalent to:
+SELECT * FROM customers WHERE state IN ('CA', 'NY', 'TX');
+
+-- Combining OR with AND (use parentheses)
+SELECT * FROM orders
+WHERE (status = 'Shipped' OR status = 'Delivered') AND total_amount > 100;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- NOT -->
+                <div class="bg-gray-50 p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2">NOT Operator</h3>
+                    <p class="text-gray-600 mb-3">Reverses the logical state of a condition.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple NOT condition
+SELECT * FROM customers
+WHERE NOT country = 'USA';
+
+-- NOT with IN
+SELECT * FROM products
+WHERE NOT category IN ('Electronics', 'Appliances');
+
+-- NOT with LIKE
+SELECT * FROM employees
+WHERE NOT first_name LIKE 'A%';
+
+-- NOT with IS NULL
+SELECT * FROM orders
+WHERE NOT shipping_date IS NULL;
+
+-- NOT with EXISTS
+SELECT * FROM departments d
+WHERE NOT EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.id);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHERE Clause -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL WHERE Clause</h2>
+            <p class="text-gray-600 mb-4">Filters records based on specified conditions.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Simple Comparison -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">Simple Comparison</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Greater than
+SELECT first_name, last_name, salary  
+FROM employees  
+WHERE salary > 50000;
+
+-- Less than or equal to
+SELECT product_name, price
+FROM products
+WHERE price <= 100;
+
+-- Not equal (both != and <> work)
+SELECT order_id, status
+FROM orders
+WHERE status != 'Cancelled';
+
+SELECT order_id, status
+FROM orders
+WHERE status <> 'Cancelled';</code></pre>
+                    </div>
+                </div>
+                
+                <!-- BETWEEN -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">BETWEEN for a Range</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Numeric range
+SELECT first_name, last_name, salary  
+FROM employees  
+WHERE salary BETWEEN 40000 AND 60000;
+
+-- Date range
+SELECT order_id, order_date, total_amount
+FROM orders
+WHERE order_date BETWEEN '2023-01-01' AND '2023-01-31';
+
+-- NOT BETWEEN
+SELECT product_name, price
+FROM products
+WHERE price NOT BETWEEN 10 AND 100;
+
+-- BETWEEN with strings
+SELECT product_name
+FROM products
+WHERE product_name BETWEEN 'A' AND 'D';</code></pre>
+                    </div>
+                </div>
+                
+                <!-- IN -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">IN for Multiple Values</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple IN
+SELECT first_name, last_name  
+FROM employees  
+WHERE department_id IN (1, 3, 5);
+
+-- IN with subquery
+SELECT customer_name
+FROM customers
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE total_amount > 1000);
+
+-- NOT IN
+SELECT product_name
+FROM products
+WHERE category_id NOT IN (5, 7, 9);
+
+-- IN with NULL values (careful with this)
+SELECT employee_name
+FROM employees
+WHERE department_id IN (1, 3, NULL); -- NULL values won't match</code></pre>
+                    </div>
+                </div>
+                
+                <!-- LIKE -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">LIKE for Pattern Matching</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Starts with 'A'
+SELECT first_name, last_name  
+FROM employees  
+WHERE first_name LIKE 'A%';
+
+-- Ends with 'son'
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%son';
+
+-- Contains 'tech'
+SELECT product_name
+FROM products
+WHERE product_name LIKE '%tech%';
+
+-- Exactly 5 characters starting with 'S'
+SELECT first_name
+FROM employees
+WHERE first_name LIKE 'S____';
+
+-- NOT LIKE
+SELECT email
+FROM customers
+WHERE email NOT LIKE '%@gmail.com';
+
+-- LIKE with escape character
+SELECT description
+FROM products
+WHERE description LIKE '%50%%' ESCAPE ''; -- Finds entries with '50%'</code></pre>
+                    </div>
+                </div>
+                
+                <!-- IS NULL -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">IS NULL for NULL Values</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple NULL check
+SELECT first_name, last_name  
+FROM employees  
+WHERE department_id IS NULL;
+
+-- IS NOT NULL
+SELECT order_id, customer_id
+FROM orders
+WHERE shipping_date IS NOT NULL;
+
+-- NULL in WHERE with other conditions
+SELECT product_name, price
+FROM products
+WHERE price IS NULL OR price > 100;
+
+-- NULL with NOT IN (careful with this)
+SELECT employee_name
+FROM employees
+WHERE department_id NOT IN (SELECT dept_id FROM departments WHERE active = 1);
+-- This won't return rows where department_id IS NULL</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Complex Conditions -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">Complex Conditions</h3>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Combining multiple conditions
+SELECT product_name, price, stock_quantity
+FROM products
+WHERE (category = 'Electronics' OR category = 'Computers')
+  AND price BETWEEN 100 AND 1000
+  AND stock_quantity > 0;
+
+-- Using parentheses to group conditions
+SELECT order_id, customer_id, total_amount
+FROM orders
+WHERE (status = 'Shipped' AND shipping_date IS NOT NULL)
+   OR (status = 'Processing' AND order_date > '2023-01-01');
+
+-- Nested conditions
+SELECT employee_name, salary, department
+FROM employees
+WHERE department = 'Sales' 
+  AND (salary > 50000 OR 
+      (hire_date < '2020-01-01' AND salary > 40000));</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aggregate Functions -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Aggregate Functions in SQL</h2>
+            <p class="text-gray-600 mb-4">Functions that operate on collections of values and return a single result.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- COUNT -->
+                <div class="border-l-4 border-blue-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">COUNT()</h3>
+                    <p class="text-gray-600 mb-3">Returns the number of rows that match a condition.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Count all rows
+SELECT COUNT(*) FROM employees;
+
+-- Count non-NULL values in a column
+SELECT COUNT(department_id) FROM employees WHERE salary > 50000;
+
+-- Count distinct values
+SELECT COUNT(DISTINCT department) FROM employees;
+
+-- Count with GROUP BY
+SELECT department, COUNT(*) AS employee_count 
+FROM employees 
+GROUP BY department;
+
+-- Count with HAVING
+SELECT department, COUNT(*) 
+FROM employees 
+GROUP BY department 
+HAVING COUNT(*) > 5;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- SUM -->
+                <div class="border-l-4 border-green-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">SUM()</h3>
+                    <p class="text-gray-600 mb-3">Returns the total sum of a numeric column.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple SUM
+SELECT SUM(salary) FROM employees;
+
+-- SUM with WHERE
+SELECT SUM(sales) FROM sales_data WHERE region = 'West';
+
+-- SUM with GROUP BY
+SELECT department, SUM(sales) 
+FROM sales_data 
+GROUP BY department;
+
+-- SUM of expression
+SELECT SUM(quantity * unit_price) AS total_sales 
+FROM order_items;
+
+-- SUM with DISTINCT
+SELECT SUM(DISTINCT salary) FROM employees;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- AVG -->
+                <div class="border-l-4 border-purple-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">AVG()</h3>
+                    <p class="text-gray-600 mb-3">Returns the average value of a numeric column.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple average
+SELECT AVG(salary) FROM employees;
+
+-- AVG with WHERE
+SELECT AVG(price) FROM products WHERE category = 'Electronics';
+
+-- AVG with GROUP BY
+SELECT department, AVG(salary) 
+FROM employees 
+GROUP BY department;
+
+-- AVG with ROUND
+SELECT ROUND(AVG(price), 2) AS avg_price FROM products;
+
+-- AVG with NULL handling
+SELECT AVG(COALESCE(discount, 0)) AS avg_discount FROM orders;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- MIN -->
+                <div class="border-l-4 border-yellow-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">MIN()</h3>
+                    <p class="text-gray-600 mb-3">Returns the minimum value of a column.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple MIN
+SELECT MIN(salary) FROM employees;
+
+-- MIN with WHERE
+SELECT MIN(price) FROM products WHERE stock_quantity > 0;
+
+-- MIN with GROUP BY
+SELECT product_category, MIN(price) 
+FROM products 
+GROUP BY product_category;
+
+-- MIN with dates
+SELECT MIN(hire_date) FROM employees;
+
+-- MIN with strings
+SELECT MIN(product_name) FROM products; -- Alphabetical first</code></pre>
+                    </div>
+                </div>
+                
+                <!-- MAX -->
+                <div class="border-l-4 border-red-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">MAX()</h3>
+                    <p class="text-gray-600 mb-3">Returns the maximum value of a column.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple MAX
+SELECT MAX(salary) FROM employees;
+
+-- MAX with WHERE
+SELECT MAX(price) FROM products WHERE category = 'Electronics';
+
+-- MAX with GROUP BY
+SELECT department, MAX(sales) 
+FROM sales_data 
+GROUP BY department;
+
+-- MAX with dates
+SELECT MAX(order_date) FROM orders;
+
+-- MAX with strings
+SELECT MAX(product_name) FROM products; -- Alphabetical last</code></pre>
+                    </div>
+                </div>
+                
+                <!-- GROUP_CONCAT -->
+                <div class="border-l-4 border-indigo-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">GROUP_CONCAT() (MySQL)</h3>
+                    <p class="text-gray-600 mb-3">Concatenates values from multiple rows into a string.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple concatenation
+SELECT department, 
+       GROUP_CONCAT(employee_name SEPARATOR ', ') 
+FROM employees 
+GROUP BY department;
+
+-- With ORDER BY
+SELECT department,
+       GROUP_CONCAT(employee_name ORDER BY hire_date SEPARATOR ' | ')
+FROM employees
+GROUP BY department;
+
+-- With DISTINCT
+SELECT project_id,
+       GROUP_CONCAT(DISTINCT employee_id ORDER BY employee_id)
+FROM project_assignments
+GROUP BY project_id;
+
+-- Limited number of items
+SELECT category,
+       GROUP_CONCAT(product_name LIMIT 5)
+FROM products
+GROUP BY category;
+
+-- Alternative in SQL Server: STRING_AGG
+-- SELECT department, STRING_AGG(employee_name, ', ') FROM employees GROUP BY department;</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GROUP BY and HAVING -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">GROUP BY with HAVING</h3>
+                <p class="text-gray-600 mb-3">GROUP BY groups rows with the same values, and HAVING filters groups after aggregation.</p>
+                <div class="sql-code">
+                    <pre><code class="language-sql">-- Basic GROUP BY
+SELECT department, AVG(salary) as avg_salary
+FROM employees
+GROUP BY department;
+
+-- Multiple GROUP BY columns
+SELECT department, job_title, COUNT(*) as employee_count
+FROM employees
+GROUP BY department, job_title;
+
+-- HAVING to filter groups
+SELECT department, AVG(salary) as avg_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 50000;
+
+-- HAVING with multiple conditions
+SELECT customer_id, COUNT(*) as order_count, SUM(total_amount) as total_spent
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 5 AND SUM(total_amount) > 1000;
+
+-- WHERE vs HAVING
+SELECT department, AVG(salary) as avg_salary
+FROM employees
+WHERE hire_date > '2020-01-01'  -- Filters rows before grouping
+GROUP BY department
+HAVING AVG(salary) > 60000;     -- Filters groups after aggregation</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SQL Key Constraints -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Key Constraints</h2>
+            <p class="text-gray-600 mb-4">Rules that ensure data integrity and consistency.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- PRIMARY KEY -->
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">PRIMARY KEY</h3>
+                    <p class="text-gray-600 mb-3">Uniquely identifies each record in a table. No duplicates or NULLs allowed.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Single column primary key
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50)
+);
+
+-- Primary key with auto-increment
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2)
+);
+
+-- Composite primary key (multiple columns)
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    PRIMARY KEY (order_id, product_id)
+);
+
+-- Add primary key to existing table
+ALTER TABLE customers ADD PRIMARY KEY (customer_id);
+
+-- Drop primary key
+ALTER TABLE employees DROP PRIMARY KEY;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- FOREIGN KEY -->
+                <div class="border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">FOREIGN KEY</h3>
+                    <p class="text-gray-600 mb-3">Establishes relationships between tables.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic foreign key
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Foreign key with ON DELETE CASCADE
+CREATE TABLE order_items (
+    item_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+);
+
+-- Multiple foreign keys
+CREATE TABLE employee_projects (
+    emp_id INT,
+    project_id INT,
+    hours_worked INT,
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
+    FOREIGN KEY (project_id) REFERENCES projects(project_id)
+);
+
+-- Add foreign key to existing table
+ALTER TABLE orders
+ADD CONSTRAINT fk_customer
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+
+-- Disable foreign key checks temporarily
+SET FOREIGN_KEY_CHECKS = 0;
+-- Perform operations that might violate constraints
+SET FOREIGN_KEY_CHECKS = 1;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- UNIQUE -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNIQUE</h3>
+                    <p class="text-gray-600 mb-3">Ensures all values in a column are unique.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Single column unique constraint
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100) UNIQUE
+);
+
+-- Composite unique constraint (combination must be unique)
+CREATE TABLE employee_departments (
+    emp_id INT,
+    dept_id INT,
+    start_date DATE,
+    UNIQUE (emp_id, dept_id)
+);
+
+-- Add unique constraint to existing table
+ALTER TABLE products ADD CONSTRAINT uq_product_code UNIQUE (product_code);
+
+-- Unique constraint with NULL values
+CREATE TABLE contacts (
+    contact_id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE, -- Only one NULL allowed in some databases
+    phone VARCHAR(20) UNIQUE
+);
+
+-- Drop unique constraint
+ALTER TABLE users DROP CONSTRAINT username;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- DEFAULT -->
+                <div class="border-l-4 border-yellow-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">DEFAULT</h3>
+                    <p class="text-gray-600 mb-3">Provides a default value for a column.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic default values
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2) DEFAULT 0.00,
+    in_stock BOOLEAN DEFAULT TRUE
+);
+
+-- Default with CURRENT_TIMESTAMP
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'Pending'
+);
+
+-- Default with functions
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50),
+    created_at DATETIME DEFAULT NOW(),
+    updated_at DATETIME DEFAULT NOW() ON UPDATE NOW()
+);
+
+-- Add default to existing column
+ALTER TABLE employees ALTER COLUMN vacation_days SET DEFAULT 10;
+
+-- Remove default
+ALTER TABLE products ALTER COLUMN price DROP DEFAULT;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- CHECK -->
+                <div class="border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">CHECK</h3>
+                    <p class="text-gray-600 mb-3">Ensures column values satisfy a condition.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Simple check constraint
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10,2) CHECK (salary > 0),
+    age INT CHECK (age >= 18)
+);
+
+-- Named check constraint
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    discount DECIMAL(10,2),
+    CONSTRAINT chk_price CHECK (price > 0),
+    CONSTRAINT chk_discount CHECK (discount >= 0 AND discount <= price)
+);
+
+-- Check with function
+CREATE TABLE reservations (
+    res_id INT PRIMARY KEY,
+    start_date DATE,
+    end_date DATE,
+    CONSTRAINT chk_dates CHECK (end_date >= start_date)
+);
+
+-- Add check to existing table
+ALTER TABLE employees ADD CONSTRAINT chk_salary CHECK (salary > 0);
+
+-- Disable check constraints temporarily (SQL Server)
+ALTER TABLE products NOCHECK CONSTRAINT chk_price;
+-- Re-enable
+ALTER TABLE products CHECK CONSTRAINT chk_price;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- NOT NULL -->
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">NOT NULL</h3>
+                    <p class="text-gray-600 mb-3">Ensures a column cannot have NULL values.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic NOT NULL
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+-- NOT NULL with DEFAULT
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    status VARCHAR(20) NOT NULL DEFAULT 'Pending'
+);
+
+-- Add NOT NULL to existing column
+ALTER TABLE employees MODIFY COLUMN hire_date DATE NOT NULL;
+
+-- Remove NOT NULL constraint
+ALTER TABLE products MODIFY COLUMN description VARCHAR(500) NULL;
+
+-- NOT NULL with CHECK
+CREATE TABLE accounts (
+    account_id INT PRIMARY KEY,
+    balance DECIMAL(15,2) NOT NULL CHECK (balance >= 0)
+);
+
+-- Temporarily disable NOT NULL (PostgreSQL)
+SET CONSTRAINTS ALL DEFERRED;
+-- Perform operations
+SET CONSTRAINTS ALL IMMEDIATE;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SQL JOINS -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL JOINS</h2>
+            <p class="text-gray-600 mb-4">Combine rows from two or more tables based on related columns.</p>
+            
+            <div class="space-y-8">
+                <!-- INNER JOIN -->
+                <div class="border-l-4 border-blue-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">INNER JOIN</h3>
+                    <p class="text-gray-600 mb-3">Returns only rows with matching values in both tables.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic INNER JOIN
+SELECT employees.name, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.dept_id = departments.dept_id;
+
+-- INNER JOIN with WHERE
+SELECT o.order_id, c.customer_name, o.order_date
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id
+WHERE o.order_date > '2023-01-01';
+
+-- INNER JOIN with multiple tables
+SELECT p.product_name, c.category_name, s.supplier_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.category_id
+INNER JOIN suppliers s ON p.supplier_id = s.supplier_id;
+
+-- INNER JOIN with GROUP BY
+SELECT d.department_name, COUNT(e.emp_id) AS employee_count
+FROM departments d
+INNER JOIN employees e ON d.dept_id = e.dept_id
+GROUP BY d.department_name;
+
+-- INNER JOIN with aliases
+SELECT e.name, d.department_name, j.title
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.dept_id
+INNER JOIN jobs j ON e.job_id = j.job_id;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- LEFT JOIN -->
+                <div class="border-l-4 border-green-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">LEFT JOIN (LEFT OUTER JOIN)</h3>
+                    <p class="text-gray-600 mb-3">Returns all rows from the left table and matched rows from the right table.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic LEFT JOIN
+SELECT customers.customer_name, orders.order_date
+FROM customers
+LEFT JOIN orders ON customers.customer_id = orders.customer_id;
+
+-- LEFT JOIN with WHERE to find non-matches
+SELECT c.customer_name
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_id IS NULL;
+
+-- LEFT JOIN with multiple conditions
+SELECT e.employee_name, p.project_name
+FROM employees e
+LEFT JOIN employee_projects ep ON e.emp_id = ep.emp_id AND ep.status = 'Active'
+LEFT JOIN projects p ON ep.project_id = p.project_id;
+
+-- LEFT JOIN with aggregate functions
+SELECT d.department_name, COUNT(e.emp_id) AS employee_count
+FROM departments d
+LEFT JOIN employees e ON d.dept_id = e.dept_id
+GROUP BY d.department_name;
+
+-- LEFT JOIN with COALESCE to handle NULLs
+SELECT p.product_name, COALESCE(SUM(oi.quantity), 0) AS total_ordered
+FROM products p
+LEFT JOIN order_items oi ON p.product_id = oi.product_id
+GROUP BY p.product_name;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- RIGHT JOIN -->
+                <div class="border-l-4 border-purple-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+                    <p class="text-gray-600 mb-3">Returns all rows from the right table and matched rows from the left table.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic RIGHT JOIN
+SELECT e.employee_name, d.department_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.dept_id;
+
+-- RIGHT JOIN to find departments without employees
+SELECT d.department_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.dept_id
+WHERE e.emp_id IS NULL;
+
+-- RIGHT JOIN with multiple tables
+SELECT c.category_name, p.product_name
+FROM products p
+RIGHT JOIN categories c ON p.category_id = c.category_id
+RIGHT JOIN suppliers s ON p.supplier_id = s.supplier_id;
+
+-- RIGHT JOIN with aggregate functions
+SELECT s.supplier_name, COUNT(p.product_id) AS product_count
+FROM products p
+RIGHT JOIN suppliers s ON p.supplier_id = s.supplier_id
+GROUP BY s.supplier_name;
+
+-- RIGHT JOIN with COALESCE
+SELECT c.category_name, COALESCE(COUNT(p.product_id), 0) AS product_count
+FROM products p
+RIGHT JOIN categories c ON p.category_id = c.category_id
+GROUP BY c.category_name;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- FULL OUTER JOIN -->
+                <div class="border-l-4 border-yellow-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">FULL OUTER JOIN</h3>
+                    <p class="text-gray-600 mb-3">Returns all rows when there is a match in either left or right table.</p>
+                    <div class="note mb-3">
+                        <p class="font-medium">Note: MySQL doesn't support FULL OUTER JOIN directly. Use UNION of LEFT and RIGHT JOINs.</p>
+                    </div>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic FULL OUTER JOIN (SQL Server, PostgreSQL)
+SELECT e.employee_name, d.department_name
+FROM employees e
+FULL OUTER JOIN departments d ON e.dept_id = d.dept_id;
+
+-- FULL OUTER JOIN to see all relationships
+SELECT c.customer_name, o.order_id, o.order_date
+FROM customers c
+FULL OUTER JOIN orders o ON c.customer_id = o.customer_id;
+
+-- MySQL alternative using UNION
+SELECT e.employee_name, d.department_name
+FROM employees e
+LEFT JOIN departments d ON e.dept_id = d.dept_id
+UNION
+SELECT e.employee_name, d.department_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.dept_id
+WHERE e.emp_id IS NULL;
+
+-- FULL OUTER JOIN with WHERE
+SELECT p.product_name, s.supplier_name
+FROM products p
+FULL OUTER JOIN suppliers s ON p.supplier_id = s.supplier_id
+WHERE p.discontinued = 0 OR p.discontinued IS NULL;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- CROSS JOIN -->
+                <div class="border-l-4 border-red-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">CROSS JOIN</h3>
+                    <p class="text-gray-600 mb-3">Returns Cartesian product of two tables.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic CROSS JOIN
+SELECT p.product_name, s.size
+FROM products p
+CROSS JOIN sizes s;
+
+-- CROSS JOIN for generating test data
+SELECT u.username, p.permission
+FROM users u
+CROSS JOIN permissions p
+WHERE u.role = 'Admin';
+
+-- CROSS JOIN with WHERE (similar to INNER JOIN)
+SELECT e.employee_name, d.department_name
+FROM employees e
+CROSS JOIN departments d
+WHERE e.dept_id = d.dept_id;
+
+-- CROSS JOIN for date ranges
+SELECT d.date, r.room_number
+FROM dates d
+CROSS JOIN rooms r
+WHERE d.date BETWEEN '2023-01-01' AND '2023-01-07';
+
+-- CROSS JOIN with LIMIT
+SELECT c.color, p.product_name
+FROM colors c
+CROSS JOIN products p
+LIMIT 100;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- SELF JOIN -->
+                <div class="border-l-4 border-indigo-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">SELF JOIN</h3>
+                    <p class="text-gray-600 mb-3">Joins a table with itself.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic SELF JOIN (employee-manager relationship)
+SELECT e.employee_name, m.employee_name AS manager_name
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.emp_id;
+
+-- SELF JOIN for finding pairs
+SELECT a.product_name, b.product_name
+FROM products a
+JOIN products b ON a.category_id = b.category_id AND a.product_id < b.product_id;
+
+-- SELF JOIN for hierarchical data
+SELECT c1.category_name, c2.category_name AS parent_category
+FROM categories c1
+LEFT JOIN categories c2 ON c1.parent_id = c2.category_id;
+
+-- SELF JOIN for comparing rows
+SELECT a.order_id, a.order_date, b.order_date AS previous_order
+FROM orders a
+JOIN orders b ON a.customer_id = b.customer_id 
+  AND b.order_date < a.order_date
+  AND DATEDIFF(a.order_date, b.order_date) <= 30;
+
+-- SELF JOIN with aggregate
+SELECT d1.department_name, COUNT(d2.employee_id) AS employee_count
+FROM departments d1
+LEFT JOIN departments d2 ON d1.dept_id = d2.dept_id
+GROUP BY d1.department_name;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SQL Aliases -->
+        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Aliases</h2>
+            <p class="text-gray-600 mb-4">Temporary names for tables or columns in queries.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Column Aliases -->
+                <div class="border-l-4 border-blue-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Column Aliases</h3>
+                    <p class="text-gray-600 mb-3">Temporary names for columns in result sets.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic column aliases
+SELECT 
+    first_name AS "First Name", 
+    last_name AS "Last Name",
+    salary * 12 AS "Annual Salary"
+FROM employees;
+
+-- Aliases with aggregate functions
+SELECT 
+    department,
+    COUNT(*) AS employee_count,
+    AVG(salary) AS avg_salary,
+    MAX(salary) AS max_salary
+FROM employees
+GROUP BY department;
+
+-- Aliases with calculations
+SELECT 
+    product_name,
+    unit_price,
+    quantity,
+    unit_price * quantity AS total_price,
+    (unit_price * quantity) * 0.1 AS discount
+FROM order_items;
+
+-- Aliases with CASE expressions
+SELECT 
+    product_name,
+    CASE 
+        WHEN price > 1000 THEN 'Premium'
+        WHEN price > 100 THEN 'Standard'
+        ELSE 'Budget'
+    END AS price_category
+FROM products;
+
+-- Aliases with string functions
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS full_name,
+    LENGTH(email) AS email_length,
+    SUBSTRING(phone, 1, 3) AS area_code
+FROM customers;</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Table Aliases -->
+                <div class="border-l-4 border-green-400 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Table Aliases</h3>
+                    <p class="text-gray-600 mb-3">Temporary names for tables, especially in joins.</p>
+                    <div class="sql-code">
+                        <pre><code class="language-sql">-- Basic table aliases
+SELECT e.name, d.department_name
+FROM employees AS e
+INNER JOIN departments AS d ON e.dept_id = d.dept_id;
+
+-- Shorter aliases (AS keyword is optional)
+SELECT o.order_id, c.customer_name, o.order_date
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;
+
+-- Aliases with self joins
+SELECT 
+    emp.name AS employee_name,
+    mgr.name AS manager_name
+FROM employees emp
+LEFT JOIN employees mgr ON emp.manager_id = mgr.emp_id;
+
+-- Aliases with subqueries
+SELECT 
+    d.department_name,
+    emp_count.employee_count
+FROM departments d
+JOIN (
+    SELECT dept_id, COUNT(*) AS employee_count
+    FROM employees
+    GROUP BY dept_id
+) emp_count ON d.dept_id = emp_count.dept_id;
+
+-- Aliases with multiple joins
+SELECT 
+    o.order_id,
+    c.customer_name,
+    p.product_name,
+    oi.quantity,
+    oi.unit_price
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>Complete SQL Reference Guide - © 2023</p>
+        </footer>
+    </div>
+</body>
+</html>
