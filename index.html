@@ -16,6 +16,7 @@
             border-radius: 0.5rem;
             font-family: monospace;
             overflow-x: auto;
+            font-size: 0.875rem;
         }
         .note {
             background-color: #f0f9ff;
@@ -24,25 +25,57 @@
             margin: 1rem 0;
             border-radius: 0.25rem;
         }
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .sql-code pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            .sql-code code {
+                white-space: pre-wrap;
+            }
+            section {
+                padding: 1rem !important;
+            }
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .sql-code {
+                padding: 0.75rem;
+                font-size: 0.8rem;
+            }
+            h1 {
+                font-size: 1.75rem !important;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            h3 {
+                font-size: 1.25rem !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-    <div class="container mx-auto px-4 py-8">
-        <header class="mb-8 text-center">
-            <h1 class="text-4xl font-bold text-blue-800 mb-2">Complete SQL Reference Guide</h1>
-            <p class="text-lg text-gray-600">All SQL concepts with practical examples</p>
+    <div class="container mx-auto px-2 sm:px-4 py-6 md:py-8">
+        <header class="mb-6 md:mb-8 text-center px-2">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-2">Complete SQL Reference Guide</h1>
+            <p class="text-base md:text-lg text-gray-600">All SQL concepts with practical examples</p>
         </header>
 
         <!-- SQL Language Types -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Language Types</h2>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">SQL Language Types</h2>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- DQL -->
-                <div class="border-l-4 border-blue-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Query Language (DQL)</h3>
-                    <p class="text-gray-600 mb-3">Used to query and retrieve data from the database.</p>
-                    <p class="font-semibold">Main Command: <span class="text-blue-600">SELECT</span></p>
+                <div class="border-l-4 border-blue-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Data Query Language (DQL)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Used to query and retrieve data from the database.</p>
+                    <p class="font-semibold text-sm md:text-base">Main Command: <span class="text-blue-600">SELECT</span></p>
                     <div class="mt-3 sql-code">
                         <pre><code class="language-sql">-- Basic SELECT
 SELECT * FROM employees;
@@ -62,10 +95,10 @@ SELECT * FROM orders LIMIT 10;</code></pre>
                 </div>
                 
                 <!-- DDL -->
-                <div class="border-l-4 border-green-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Definition Language (DDL)</h3>
-                    <p class="text-gray-600 mb-3">Used to define and manage database structures.</p>
-                    <ul class="list-disc pl-5 mb-3">
+                <div class="border-l-4 border-green-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Data Definition Language (DDL)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Used to define and manage database structures.</p>
+                    <ul class="list-disc pl-4 md:pl-5 mb-3 text-sm md:text-base">
                         <li><span class="font-semibold">CREATE</span>: Creates new database objects</li>
                         <li><span class="font-semibold">ALTER</span>: Modifies existing objects</li>
                         <li><span class="font-semibold">DROP</span>: Deletes objects</li>
@@ -98,10 +131,10 @@ DELETE FROM employees WHERE id = 101;</code></pre>
                 </div>
                 
                 <!-- DCL -->
-                <div class="border-l-4 border-purple-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Data Control Language (DCL)</h3>
-                    <p class="text-gray-600 mb-3">Used to control access and permissions.</p>
-                    <ul class="list-disc pl-5 mb-3">
+                <div class="border-l-4 border-purple-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Data Control Language (DCL)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Used to control access and permissions.</p>
+                    <ul class="list-disc pl-4 md:pl-5 mb-3 text-sm md:text-base">
                         <li><span class="font-semibold">GRANT</span>: Assigns privileges</li>
                         <li><span class="font-semibold">REVOKE</span>: Removes privileges</li>
                     </ul>
@@ -127,10 +160,10 @@ GRANT SELECT ON mydb.* TO 'newuser'@'localhost';</code></pre>
                 </div>
                 
                 <!-- TCL -->
-                <div class="border-l-4 border-yellow-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Transaction Control Language (TCL)</h3>
-                    <p class="text-gray-600 mb-3">Manages changes and ensures data integrity.</p>
-                    <ul class="list-disc pl-5 mb-3">
+                <div class="border-l-4 border-yellow-500 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Transaction Control Language (TCL)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Manages changes and ensures data integrity.</p>
+                    <ul class="list-disc pl-4 md:pl-5 mb-3 text-sm md:text-base">
                         <li><span class="font-semibold">COMMIT</span>: Saves changes</li>
                         <li><span class="font-semibold">ROLLBACK</span>: Undoes changes</li>
                         <li><span class="font-semibold">SAVEPOINT</span>: Sets rollback points</li>
@@ -169,13 +202,13 @@ COMMIT;</code></pre>
         </section>
 
         <!-- Arithmetic Operators -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Arithmetic Operations in SQL</h2>
-            <p class="text-gray-600 mb-4">SQL supports standard arithmetic operations in queries:</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">Arithmetic Operations in SQL</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">SQL supports standard arithmetic operations in queries:</p>
             
-            <div class="grid md:grid-cols-2 gap-4 mb-6">
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Addition (+)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-6">
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Addition (+)</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Add a fixed amount
 SELECT salary, salary + 5000 AS increased_salary FROM employees;
@@ -187,8 +220,8 @@ SELECT quantity, unit_price, quantity + unit_price AS total FROM order_items;
 SELECT price, discount, price + COALESCE(discount, 0) AS final_price FROM products;</code></pre>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Subtraction (-)</h4>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Subtraction (-)</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Subtract a fixed amount
 SELECT salary, salary - tax AS net_salary FROM employees;
@@ -200,8 +233,8 @@ SELECT revenue, expenses, revenue - expenses AS profit FROM financials;
 SELECT order_date, ship_date, ship_date - order_date AS days_to_ship FROM orders;</code></pre>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Multiplication (*)</h4>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Multiplication (*)</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Multiply two columns
 SELECT quantity, price, quantity * price AS total FROM order_items;
@@ -213,8 +246,8 @@ SELECT salary, salary * 1.1 AS salary_with_10pct_raise FROM employees;
 SELECT hours_worked, rate, hours_worked * COALESCE(rate, 0) AS earnings FROM timesheets;</code></pre>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Division (/)</h4>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Division (/)</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Divide two columns
 SELECT revenue, employees, revenue/employees AS rev_per_emp FROM departments;
@@ -226,8 +259,8 @@ SELECT quantity, total, CAST(total AS FLOAT)/quantity AS unit_price FROM sales;
 SELECT a, b, CASE WHEN b = 0 THEN NULL ELSE a/b END AS ratio FROM calculations;</code></pre>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Modulus (%)</h4>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Modulus (%)</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Find even IDs
 SELECT id FROM orders WHERE id % 2 = 0;
@@ -239,8 +272,8 @@ SELECT value, value % 10 AS bucket FROM measurements;
 SELECT number, CASE WHEN number % 5 = 0 THEN 'Divisible by 5' ELSE 'Not divisible' END FROM numbers;</code></pre>
                     </div>
                 </div>
-                <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-800">Combined Operations</h4>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h4 class="font-medium text-gray-800 text-base md:text-lg">Combined Operations</h4>
                     <div class="sql-code mt-2">
                         <pre><code class="language-sql">-- Complex calculation
 SELECT quantity, price, discount, 
@@ -258,16 +291,16 @@ SELECT * FROM products WHERE (price * 0.9) < 50;</code></pre>
         </section>
 
         <!-- Set Operators -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Set Operators in SQL</h2>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">Set Operators in SQL</h2>
             
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6">
                 <!-- UNION -->
-                <div class="border-l-4 border-blue-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNION</h3>
-                    <p class="text-gray-600 mb-3">Combines result sets of two or more SELECT queries and removes duplicate rows.</p>
+                <div class="border-l-4 border-blue-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">UNION</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Combines result sets of two or more SELECT queries and removes duplicate rows.</p>
                     <div class="note mb-3">
-                        <p class="font-medium">Note: All SELECT statements must have the same number of columns with compatible data types.</p>
+                        <p class="font-medium text-sm md:text-base">Note: All SELECT statements must have the same number of columns with compatible data types.</p>
                     </div>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Combine current and discontinued products
@@ -289,9 +322,9 @@ ORDER BY name;</code></pre>
                 </div>
                 
                 <!-- UNION ALL -->
-                <div class="border-l-4 border-green-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNION ALL</h3>
-                    <p class="text-gray-600 mb-3">Combines result sets but keeps all rows including duplicates.</p>
+                <div class="border-l-4 border-green-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">UNION ALL</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Combines result sets but keeps all rows including duplicates.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Combine all orders including duplicates
 SELECT customer_id FROM online_orders
@@ -309,11 +342,11 @@ SELECT 'A' AS letter, 1 AS num UNION ALL SELECT 'B', 2 UNION ALL SELECT 'B', 2;<
                 </div>
                 
                 <!-- INTERSECT -->
-                <div class="border-l-4 border-purple-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">INTERSECT</h3>
-                    <p class="text-gray-600 mb-3">Returns only rows that exist in both queries.</p>
+                <div class="border-l-4 border-purple-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">INTERSECT</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns only rows that exist in both queries.</p>
                     <div class="note mb-3">
-                        <p class="font-medium">Note: Not supported in all database systems (MySQL doesn't support INTERSECT directly).</p>
+                        <p class="font-medium text-sm md:text-base">Note: Not supported in all database systems (MySQL doesn't support INTERSECT directly).</p>
                     </div>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Employees who are also managers
@@ -334,11 +367,11 @@ INNER JOIN managers m ON e.employee_id = m.employee_id;</code></pre>
                 </div>
                 
                 <!-- EXCEPT/MINUS -->
-                <div class="border-l-4 border-yellow-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">EXCEPT (or MINUS)</h3>
-                    <p class="text-gray-600 mb-3">Returns rows from the first query not present in the second.</p>
+                <div class="border-l-4 border-yellow-400 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">EXCEPT (or MINUS)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns rows from the first query not present in the second.</p>
                     <div class="note mb-3">
-                        <p class="font-medium">Note: Called MINUS in Oracle, EXCEPT in SQL Server and PostgreSQL.</p>
+                        <p class="font-medium text-sm md:text-base">Note: Called MINUS in Oracle, EXCEPT in SQL Server and PostgreSQL.</p>
                     </div>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Customers who haven't placed orders
@@ -362,15 +395,15 @@ WHERE p.customer_id IS NULL;</code></pre>
         </section>
 
         <!-- Logical Operators -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Logical Operators in SQL</h2>
-            <p class="text-gray-600 mb-4">Used to combine multiple conditions in WHERE or HAVING clauses.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">Logical Operators in SQL</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Used to combine multiple conditions in WHERE or HAVING clauses.</p>
             
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <!-- AND -->
-                <div class="bg-gray-50 p-4 rounded">
-                    <h3 class="font-medium text-gray-800 mb-2">AND Operator</h3>
-                    <p class="text-gray-600 mb-3">Returns true if all conditions are true.</p>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2 text-base md:text-lg">AND Operator</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns true if all conditions are true.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Multiple conditions with AND
 SELECT * FROM employees
@@ -391,9 +424,9 @@ WHERE status = 'Active' AND (last_purchase_date > '2023-01-01' OR total_purchase
                 </div>
                 
                 <!-- OR -->
-                <div class="bg-gray-50 p-4 rounded">
-                    <h3 class="font-medium text-gray-800 mb-2">OR Operator</h3>
-                    <p class="text-gray-600 mb-3">Returns true if at least one condition is true.</p>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2 text-base md:text-lg">OR Operator</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns true if at least one condition is true.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Multiple conditions with OR
 SELECT * FROM products
@@ -416,9 +449,9 @@ WHERE (status = 'Shipped' OR status = 'Delivered') AND total_amount > 100;</code
                 </div>
                 
                 <!-- NOT -->
-                <div class="bg-gray-50 p-4 rounded">
-                    <h3 class="font-medium text-gray-800 mb-2">NOT Operator</h3>
-                    <p class="text-gray-600 mb-3">Reverses the logical state of a condition.</p>
+                <div class="bg-gray-50 p-3 md:p-4 rounded">
+                    <h3 class="font-medium text-gray-800 mb-2 text-base md:text-lg">NOT Operator</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Reverses the logical state of a condition.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple NOT condition
 SELECT * FROM customers
@@ -445,14 +478,14 @@ WHERE NOT EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.id);</code
         </section>
 
         <!-- WHERE Clause -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL WHERE Clause</h2>
-            <p class="text-gray-600 mb-4">Filters records based on specified conditions.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">SQL WHERE Clause</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Filters records based on specified conditions.</p>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- Simple Comparison -->
-                <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">Simple Comparison</h3>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">Simple Comparison</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Greater than
 SELECT first_name, last_name, salary  
@@ -476,8 +509,8 @@ WHERE status <> 'Cancelled';</code></pre>
                 </div>
                 
                 <!-- BETWEEN -->
-                <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">BETWEEN for a Range</h3>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">BETWEEN for a Range</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Numeric range
 SELECT first_name, last_name, salary  
@@ -502,8 +535,8 @@ WHERE product_name BETWEEN 'A' AND 'D';</code></pre>
                 </div>
                 
                 <!-- IN -->
-                <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">IN for Multiple Values</h3>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">IN for Multiple Values</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple IN
 SELECT first_name, last_name  
@@ -528,8 +561,8 @@ WHERE department_id IN (1, 3, NULL); -- NULL values won't match</code></pre>
                 </div>
                 
                 <!-- LIKE -->
-                <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">LIKE for Pattern Matching</h3>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">LIKE for Pattern Matching</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Starts with 'A'
 SELECT first_name, last_name  
@@ -564,8 +597,8 @@ WHERE description LIKE '%50%%' ESCAPE ''; -- Finds entries with '50%'</code></pr
                 </div>
                 
                 <!-- IS NULL -->
-                <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">IS NULL for NULL Values</h3>
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">IS NULL for NULL Values</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple NULL check
 SELECT first_name, last_name  
@@ -592,7 +625,7 @@ WHERE department_id NOT IN (SELECT dept_id FROM departments WHERE active = 1);
                 
                 <!-- Complex Conditions -->
                 <div>
-                    <h3 class="text-lg font-medium text-gray-800 mb-2">Complex Conditions</h3>
+                    <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2">Complex Conditions</h3>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Combining multiple conditions
 SELECT product_name, price, stock_quantity
@@ -619,15 +652,15 @@ WHERE department = 'Sales'
         </section>
 
         <!-- Aggregate Functions -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Aggregate Functions in SQL</h2>
-            <p class="text-gray-600 mb-4">Functions that operate on collections of values and return a single result.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">Aggregate Functions in SQL</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Functions that operate on collections of values and return a single result.</p>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- COUNT -->
-                <div class="border-l-4 border-blue-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">COUNT()</h3>
-                    <p class="text-gray-600 mb-3">Returns the number of rows that match a condition.</p>
+                <div class="border-l-4 border-blue-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">COUNT()</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns the number of rows that match a condition.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Count all rows
 SELECT COUNT(*) FROM employees;
@@ -652,9 +685,9 @@ HAVING COUNT(*) > 5;</code></pre>
                 </div>
                 
                 <!-- SUM -->
-                <div class="border-l-4 border-green-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">SUM()</h3>
-                    <p class="text-gray-600 mb-3">Returns the total sum of a numeric column.</p>
+                <div class="border-l-4 border-green-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">SUM()</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns the total sum of a numeric column.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple SUM
 SELECT SUM(salary) FROM employees;
@@ -677,9 +710,9 @@ SELECT SUM(DISTINCT salary) FROM employees;</code></pre>
                 </div>
                 
                 <!-- AVG -->
-                <div class="border-l-4 border-purple-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">AVG()</h3>
-                    <p class="text-gray-600 mb-3">Returns the average value of a numeric column.</p>
+                <div class="border-l-4 border-purple-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">AVG()</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns the average value of a numeric column.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple average
 SELECT AVG(salary) FROM employees;
@@ -701,9 +734,9 @@ SELECT AVG(COALESCE(discount, 0)) AS avg_discount FROM orders;</code></pre>
                 </div>
                 
                 <!-- MIN -->
-                <div class="border-l-4 border-yellow-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">MIN()</h3>
-                    <p class="text-gray-600 mb-3">Returns the minimum value of a column.</p>
+                <div class="border-l-4 border-yellow-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">MIN()</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns the minimum value of a column.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple MIN
 SELECT MIN(salary) FROM employees;
@@ -725,9 +758,9 @@ SELECT MIN(product_name) FROM products; -- Alphabetical first</code></pre>
                 </div>
                 
                 <!-- MAX -->
-                <div class="border-l-4 border-red-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">MAX()</h3>
-                    <p class="text-gray-600 mb-3">Returns the maximum value of a column.</p>
+                <div class="border-l-4 border-red-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">MAX()</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns the maximum value of a column.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple MAX
 SELECT MAX(salary) FROM employees;
@@ -749,9 +782,9 @@ SELECT MAX(product_name) FROM products; -- Alphabetical last</code></pre>
                 </div>
                 
                 <!-- GROUP_CONCAT -->
-                <div class="border-l-4 border-indigo-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">GROUP_CONCAT() (MySQL)</h3>
-                    <p class="text-gray-600 mb-3">Concatenates values from multiple rows into a string.</p>
+                <div class="border-l-4 border-indigo-400 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">GROUP_CONCAT() (MySQL)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Concatenates values from multiple rows into a string.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple concatenation
 SELECT department, 
@@ -785,8 +818,8 @@ GROUP BY category;
             
             <!-- GROUP BY and HAVING -->
             <div class="mt-6 pt-6 border-t border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">GROUP BY with HAVING</h3>
-                <p class="text-gray-600 mb-3">GROUP BY groups rows with the same values, and HAVING filters groups after aggregation.</p>
+                <h3 class="text-lg md:text-xl font-semibold text-gray-800 mb-3">GROUP BY with HAVING</h3>
+                <p class="text-gray-600 mb-3 text-sm md:text-base">GROUP BY groups rows with the same values, and HAVING filters groups after aggregation.</p>
                 <div class="sql-code">
                     <pre><code class="language-sql">-- Basic GROUP BY
 SELECT department, AVG(salary) as avg_salary
@@ -821,15 +854,15 @@ HAVING AVG(salary) > 60000;     -- Filters groups after aggregation</code></pre>
         </section>
 
         <!-- SQL Key Constraints -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Key Constraints</h2>
-            <p class="text-gray-600 mb-4">Rules that ensure data integrity and consistency.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">SQL Key Constraints</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Rules that ensure data integrity and consistency.</p>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- PRIMARY KEY -->
-                <div class="border-l-4 border-blue-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">PRIMARY KEY</h3>
-                    <p class="text-gray-600 mb-3">Uniquely identifies each record in a table. No duplicates or NULLs allowed.</p>
+                <div class="border-l-4 border-blue-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">PRIMARY KEY</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Uniquely identifies each record in a table. No duplicates or NULLs allowed.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Single column primary key
 CREATE TABLE employees (
@@ -862,9 +895,9 @@ ALTER TABLE employees DROP PRIMARY KEY;</code></pre>
                 </div>
                 
                 <!-- FOREIGN KEY -->
-                <div class="border-l-4 border-green-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">FOREIGN KEY</h3>
-                    <p class="text-gray-600 mb-3">Establishes relationships between tables.</p>
+                <div class="border-l-4 border-green-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">FOREIGN KEY</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Establishes relationships between tables.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic foreign key
 CREATE TABLE orders (
@@ -904,9 +937,9 @@ SET FOREIGN_KEY_CHECKS = 1;</code></pre>
                 </div>
                 
                 <!-- UNIQUE -->
-                <div class="border-l-4 border-purple-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">UNIQUE</h3>
-                    <p class="text-gray-600 mb-3">Ensures all values in a column are unique.</p>
+                <div class="border-l-4 border-purple-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">UNIQUE</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Ensures all values in a column are unique.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Single column unique constraint
 CREATE TABLE users (
@@ -939,9 +972,9 @@ ALTER TABLE users DROP CONSTRAINT username;</code></pre>
                 </div>
                 
                 <!-- DEFAULT -->
-                <div class="border-l-4 border-yellow-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">DEFAULT</h3>
-                    <p class="text-gray-600 mb-3">Provides a default value for a column.</p>
+                <div class="border-l-4 border-yellow-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">DEFAULT</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Provides a default value for a column.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic default values
 CREATE TABLE products (
@@ -975,9 +1008,9 @@ ALTER TABLE products ALTER COLUMN price DROP DEFAULT;</code></pre>
                 </div>
                 
                 <!-- CHECK -->
-                <div class="border-l-4 border-red-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">CHECK</h3>
-                    <p class="text-gray-600 mb-3">Ensures column values satisfy a condition.</p>
+                <div class="border-l-4 border-red-500 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">CHECK</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Ensures column values satisfy a condition.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Simple check constraint
 CREATE TABLE employees (
@@ -1016,9 +1049,9 @@ ALTER TABLE products CHECK CONSTRAINT chk_price;</code></pre>
                 </div>
                 
                 <!-- NOT NULL -->
-                <div class="border-l-4 border-indigo-500 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">NOT NULL</h3>
-                    <p class="text-gray-600 mb-3">Ensures a column cannot have NULL values.</p>
+                <div class="border-l-4 border-indigo-500 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">NOT NULL</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Ensures a column cannot have NULL values.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic NOT NULL
 CREATE TABLE customers (
@@ -1056,15 +1089,15 @@ SET CONSTRAINTS ALL IMMEDIATE;</code></pre>
         </section>
 
         <!-- SQL JOINS -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL JOINS</h2>
-            <p class="text-gray-600 mb-4">Combine rows from two or more tables based on related columns.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">SQL JOINS</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Combine rows from two or more tables based on related columns.</p>
             
-            <div class="space-y-8">
+            <div class="space-y-6 md:space-y-8">
                 <!-- INNER JOIN -->
-                <div class="border-l-4 border-blue-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">INNER JOIN</h3>
-                    <p class="text-gray-600 mb-3">Returns only rows with matching values in both tables.</p>
+                <div class="border-l-4 border-blue-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">INNER JOIN</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns only rows with matching values in both tables.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic INNER JOIN
 SELECT employees.name, departments.department_name
@@ -1098,9 +1131,9 @@ INNER JOIN jobs j ON e.job_id = j.job_id;</code></pre>
                 </div>
                 
                 <!-- LEFT JOIN -->
-                <div class="border-l-4 border-green-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">LEFT JOIN (LEFT OUTER JOIN)</h3>
-                    <p class="text-gray-600 mb-3">Returns all rows from the left table and matched rows from the right table.</p>
+                <div class="border-l-4 border-green-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">LEFT JOIN (LEFT OUTER JOIN)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns all rows from the left table and matched rows from the right table.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic LEFT JOIN
 SELECT customers.customer_name, orders.order_date
@@ -1134,9 +1167,9 @@ GROUP BY p.product_name;</code></pre>
                 </div>
                 
                 <!-- RIGHT JOIN -->
-                <div class="border-l-4 border-purple-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">RIGHT JOIN (RIGHT OUTER JOIN)</h3>
-                    <p class="text-gray-600 mb-3">Returns all rows from the right table and matched rows from the left table.</p>
+                <div class="border-l-4 border-purple-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns all rows from the right table and matched rows from the left table.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic RIGHT JOIN
 SELECT e.employee_name, d.department_name
@@ -1170,11 +1203,11 @@ GROUP BY c.category_name;</code></pre>
                 </div>
                 
                 <!-- FULL OUTER JOIN -->
-                <div class="border-l-4 border-yellow-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">FULL OUTER JOIN</h3>
-                    <p class="text-gray-600 mb-3">Returns all rows when there is a match in either left or right table.</p>
+                <div class="border-l-4 border-yellow-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">FULL OUTER JOIN</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns all rows when there is a match in either left or right table.</p>
                     <div class="note mb-3">
-                        <p class="font-medium">Note: MySQL doesn't support FULL OUTER JOIN directly. Use UNION of LEFT and RIGHT JOINs.</p>
+                        <p class="font-medium text-sm md:text-base">Note: MySQL doesn't support FULL OUTER JOIN directly. Use UNION of LEFT and RIGHT JOINs.</p>
                     </div>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic FULL OUTER JOIN (SQL Server, PostgreSQL)
@@ -1206,9 +1239,9 @@ WHERE p.discontinued = 0 OR p.discontinued IS NULL;</code></pre>
                 </div>
                 
                 <!-- CROSS JOIN -->
-                <div class="border-l-4 border-red-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">CROSS JOIN</h3>
-                    <p class="text-gray-600 mb-3">Returns Cartesian product of two tables.</p>
+                <div class="border-l-4 border-red-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">CROSS JOIN</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Returns Cartesian product of two tables.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic CROSS JOIN
 SELECT p.product_name, s.size
@@ -1242,9 +1275,9 @@ LIMIT 100;</code></pre>
                 </div>
                 
                 <!-- SELF JOIN -->
-                <div class="border-l-4 border-indigo-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">SELF JOIN</h3>
-                    <p class="text-gray-600 mb-3">Joins a table with itself.</p>
+                <div class="border-l-4 border-indigo-400 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">SELF JOIN</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Joins a table with itself.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic SELF JOIN (employee-manager relationship)
 SELECT e.employee_name, m.employee_name AS manager_name
@@ -1279,15 +1312,15 @@ GROUP BY d1.department_name;</code></pre>
         </section>
 
         <!-- SQL Aliases -->
-        <section class="mb-12 bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">SQL Aliases</h2>
-            <p class="text-gray-600 mb-4">Temporary names for tables or columns in queries.</p>
+        <section class="mb-8 md:mb-12 bg-white rounded-lg shadow-md p-4 md:p-6">
+            <h2 class="text-xl md:text-2xl font-semibold text-blue-700 mb-4">SQL Aliases</h2>
+            <p class="text-gray-600 mb-4 text-sm md:text-base">Temporary names for tables or columns in queries.</p>
             
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- Column Aliases -->
-                <div class="border-l-4 border-blue-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Column Aliases</h3>
-                    <p class="text-gray-600 mb-3">Temporary names for columns in result sets.</p>
+                <div class="border-l-4 border-blue-400 pl-3 md:pl-4 mb-4 md:mb-0">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Column Aliases</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Temporary names for columns in result sets.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic column aliases
 SELECT 
@@ -1334,9 +1367,9 @@ FROM customers;</code></pre>
                 </div>
                 
                 <!-- Table Aliases -->
-                <div class="border-l-4 border-green-400 pl-4">
-                    <h3 class="text-xl font-medium text-gray-800 mb-2">Table Aliases</h3>
-                    <p class="text-gray-600 mb-3">Temporary names for tables, especially in joins.</p>
+                <div class="border-l-4 border-green-400 pl-3 md:pl-4">
+                    <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Table Aliases</h3>
+                    <p class="text-gray-600 mb-3 text-sm md:text-base">Temporary names for tables, especially in joins.</p>
                     <div class="sql-code">
                         <pre><code class="language-sql">-- Basic table aliases
 SELECT e.name, d.department_name
@@ -1382,7 +1415,7 @@ JOIN products p ON oi.product_id = p.product_id;</code></pre>
             </div>
         </section>
 
-        <footer class="mt-12 text-center text-gray-500 text-sm">
+        <footer class="mt-8 md:mt-12 text-center text-gray-500 text-xs md:text-sm px-2">
             <p>Complete SQL Reference Guide - © 2023</p>
         </footer>
     </div>
